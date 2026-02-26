@@ -28,16 +28,14 @@
 
 [![Skill Forge Demo](https://img.youtube.com/vi/Hu9HJkuccVM/maxresdefault.jpg)](https://youtu.be/Hu9HJkuccVM)
 
-**[▶ Watch on YouTube](https://youtu.be/Hu9HJkuccVM)**
-
 ---
 
 ## Screenshots
 
-| Terminal | Telegram | Dashboard |
-|:--------:|:--------:|:---------:|
-| [![Terminal](assets/terminal.png)](assets/terminal.png) | [![Telegram](assets/telegram.png)](assets/telegram.png) | [![Dashboard](assets/dashboard.png)](assets/dashboard.png) |
-| CLI learning pipeline | Live notifications | Real-time skill feed |
+| Terminal | Telegram |
+|:--------:|:--------:|
+| [![Terminal](assets/terminal.png)](assets/terminal.png) | [![Telegram](assets/telegram.png)](assets/telegram.png) |
+| CLI learning pipeline | Live notifications |
 
 ---
 
