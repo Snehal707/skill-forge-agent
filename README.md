@@ -32,10 +32,10 @@
 
 ## Screenshots
 
-| Terminal | Telegram |
-|:--------:|:--------:|
-| [![Terminal](assets/terminal.png)](assets/terminal.png) | [![Telegram](assets/telegram.png)](assets/telegram.png) |
-| CLI learning pipeline | Live notifications |
+| Terminal | Telegram | Dashboard |
+|:--------:|:--------:|:---------:|
+| [![Terminal](assets/terminal.png)](assets/terminal.png) | [![Telegram](assets/telegram.png)](assets/telegram.png) | [![Dashboard](assets/dashboard.png)](assets/dashboard.png) |
+| CLI learning pipeline | Live notifications | Real-time skill feed |
 
 ---
 
