@@ -175,19 +175,14 @@ This starts the Next.js app at `http://localhost:3000` with:
 
 ### Dashboard (Vercel Deploy)
 
-1. Ensure `dashboard/vercel.json` is committed (it configures `npm run build`).
-2. Push the repository to GitHub (or your preferred Git provider).
-3. In Vercel:
-   - Click **New Project → Import** and select this repo.
-   - If needed, set **Root Directory** to `dashboard/`.
-   - Build command: `npm run build`
-   - Output directory: `.next`
-4. Add the following environment variables in the Vercel project:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-5. Deploy the project. After deployment:
-   - Copy the Vercel URL and set it as `DASHBOARD_URL` in your agent `.env`.
-   - Trigger a learn run (e.g. `python skill_forge.py learn docker`) and verify
-     that new events/skills appear live on the dashboard.
+1. **Import from GitHub:** Go to [vercel.com/new](https://vercel.com/new) → Import `Snehal707/skill-forge-agent`.
+2. **Root Directory:** Set to `dashboard` (or leave blank — root `vercel.json` already configures this).
+3. **Environment Variables** (Vercel → Project Settings → Environment Variables):
+   - `NEXT_PUBLIC_SUPABASE_URL` = your Supabase project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = your Supabase anon/public key
+4. Click **Deploy**. After deployment:
+   - Copy the live URL (e.g. `https://skill-forge-agent-xxx.vercel.app`).
+   - Set `DASHBOARD_URL` in your agent `.env` so Telegram "Saved" links work.
+   - Run `python skill_forge.py learn docker` and verify events appear live.
 
 
