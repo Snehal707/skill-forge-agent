@@ -26,7 +26,7 @@
 
 ## Watch the Demo
 
-[![Skill Forge Demo](https://img.youtube.com/vi/Hu9HJkuccVM/maxresdefault.jpg)](https://youtu.be/Hu9HJkuccVM)
+[![Skill Forge Demo](https://img.youtube.com/vi/Hu9HJkuccVM/hqdefault.jpg)](https://youtu.be/Hu9HJkuccVM)
 
 ---
 
