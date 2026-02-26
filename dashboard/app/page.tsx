@@ -132,33 +132,47 @@ export default function Page() {
     };
   }, []);
 
+  // Dedupe by name (keep latest) so list matches Hermes disk
+  const uniqueSkills = useMemo(() => {
+    const byName = new Map<string, SkillItem>();
+    for (const s of skills) {
+      const existing = byName.get(s.name);
+      if (!existing || (s.createdAt ?? "") > (existing.createdAt ?? "")) {
+        byName.set(s.name, s);
+      }
+    }
+    return Array.from(byName.values());
+  }, [skills]);
+
   const domains = useMemo(
-    () => Array.from(new Set(skills.map((s) => s.domain))).sort(),
-    [skills],
+    () => Array.from(new Set(uniqueSkills.map((s) => s.domain))).sort(),
+    [uniqueSkills],
   );
   const categories = useMemo(
-    () => Array.from(new Set(skills.map((s) => s.category))).sort(),
-    [skills],
+    () => Array.from(new Set(uniqueSkills.map((s) => s.category))).sort(),
+    [uniqueSkills],
   );
 
-  const filteredSkills = skills.filter((s) => {
+  const filteredSkills = uniqueSkills.filter((s) => {
     if (domainFilter !== "all" && s.domain !== domainFilter) return false;
     if (categoryFilter !== "all" && s.category !== categoryFilter) return false;
     return true;
   });
 
   const stats = useMemo(() => {
-    const total = skills.length;
+    const total = uniqueSkills.length;
     const now = new Date();
     const todayIso = new Date(
       Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
     ).toISOString();
-    const skillsToday = skills.filter((s) => s.createdAt >= todayIso).length;
-    const validated = skills.filter((s) => s.validationPassed).length;
+    const skillsToday = uniqueSkills.filter(
+      (s) => (s.createdAt ?? "") >= todayIso,
+    ).length;
+    const validated = uniqueSkills.filter((s) => s.validationPassed).length;
     const successRate = total > 0 ? (validated / total) * 100 : 0;
     const domainsCovered = domains.length;
     return { total, skillsToday, successRate, domainsCovered };
-  }, [skills, domains]);
+  }, [uniqueSkills, domains]);
 
   return (
     <main className="flex-1 space-y-6 p-6">
@@ -203,7 +217,7 @@ export default function Page() {
           <div className="grid grid-cols-1 gap-4">
             {filteredSkills.map((skill) => (
               <SkillCard
-                key={skill.id}
+                key={skill.name}
                 skill={skill}
                 onClick={() => setSelectedSkill(skill)}
               />
