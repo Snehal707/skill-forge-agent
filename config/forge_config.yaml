@@ -1,0 +1,44 @@
+# Example configuration for Skill Forge.
+# Secrets such as API keys and Supabase keys MUST live in .env, not here.
+
+llm:
+  model: "anthropic/claude-sonnet-4"
+  max_tokens: 4096
+  temperature: 0.2
+
+paths:
+  # Default Hermes skills directory; can be overridden via SKILLS_DIR env var.
+  skills_dir: "~/.hermes/skills"
+
+supabase:
+  enabled: true
+  skills_table: "skills"
+  events_table: "events"
+
+notifications:
+  telegram_enabled: true
+  dashboard_enabled: true
+
+sandbox:
+  docker_image: "python:3.11-slim"
+  max_attempts: 3
+  command_timeout_seconds: 300
+
+domains:
+  - docker
+  - kubernetes
+  - git
+  - python
+  - postgresql
+  - redis
+  - nginx
+  - linux
+  - terraform
+  - react
+  - fastapi
+  - mongodb
+  - aws
+  - github-actions
+  - typescript
+  - celery
+

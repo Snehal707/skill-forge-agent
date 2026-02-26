@@ -1,0 +1,10 @@
+openai>=1.0.0
+firecrawl-py
+python-telegram-bot>=20.0
+pyyaml
+rich
+requests
+supabase
+schedule
+loguru
+
