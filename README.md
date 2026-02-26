@@ -1,14 +1,47 @@
-## Skill Forge
+<p align="center">
+  <img src="https://img.shields.io/badge/Skill%20Forge-Autonomous%20Agent-00ff87?style=for-the-badge&logo=python" alt="Skill Forge" />
+</p>
 
-Skill Forge is an autonomous agent built on top of Hermes Agent that
-teaches itself new skills by researching a domain, writing a SKILL.md
-document, validating it in a Docker sandbox, and saving it to the Hermes
-skills library. Every key event is pushed to Supabase (for a live Vercel
-dashboard) and mirrored to Telegram.
+<h1 align="center">Skill Forge</h1>
+
+<p align="center">
+  <strong>An autonomous agent that teaches itself new skills</strong> — researches domains, writes SKILL.md documents, validates them in Docker, and saves to Hermes Agent.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Snehal707/skill-forge-agent"><img src="https://img.shields.io/github/stars/Snehal707/skill-forge-agent?style=flat-square" alt="GitHub stars" /></a>
+  <a href="https://github.com/Snehal707/skill-forge-agent/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Snehal707/skill-forge-agent?style=flat-square" alt="License" /></a>
+  <a href="https://github.com/NousResearch/hermes-agent"><img src="https://img.shields.io/badge/Built%20for-Hermes%20Agent-4488ff?style=flat-square" alt="Hermes Agent" /></a>
+  <a href="https://agentskills.io"><img src="https://img.shields.io/badge/SKILL.md-agentskills.io-ffd700?style=flat-square" alt="agentskills.io" /></a>
+</p>
+
+<p align="center">
+  <a href="https://skill-forge-agent.vercel.app">Live Dashboard</a> •
+  <a href="https://youtu.be/Hu9HJkuccVM">YouTube Demo</a> •
+  <a href="https://github.com/Snehal707/skill-forge-agent">GitHub</a> •
+  <a href="https://agentskills.io">agentskills.io</a>
+</p>
 
 ---
 
-### Architecture Overview
+## Watch the Demo
+
+[![Skill Forge Demo](https://img.youtube.com/vi/Hu9HJkuccVM/maxresdefault.jpg)](https://youtu.be/Hu9HJkuccVM)
+
+**[▶ Watch on YouTube](https://youtu.be/Hu9HJkuccVM)**
+
+---
+
+## Screenshots
+
+| Terminal | Telegram | Dashboard |
+|:--------:|:--------:|:---------:|
+| [![Terminal](assets/terminal.png)](assets/terminal.png) | [![Telegram](assets/telegram.png)](assets/telegram.png) | [![Dashboard](assets/dashboard.png)](assets/dashboard.png) |
+| CLI learning pipeline | Live notifications | Real-time skill feed |
+
+---
+
+## Architecture
 
 High-level flow from CLI to dashboard:
 
@@ -33,61 +66,70 @@ flowchart TD
 
 ---
 
-### Project Layout
+## How It Works
 
-- `forge/` — Python package for the autonomous agent:
-  - `researcher.py` — Firecrawl-powered web research.
-  - `writer.py` — LLM-based SKILL.md generator.
-  - `validator.py` — Docker sandbox validation.
-  - `notifier.py` — Telegram notifications.
-  - `skill_manager.py` — reads/writes to the Hermes skills dir.
-  - `summarizer.py` — daily summary builder.
-  - `health_check.py` — environment and dependency health checks.
-  - `llm.py` — OpenRouter-backed LLM helper.
-  - `db.py` — Supabase client and queries.
-- `skill_forge.py` — main CLI (learn, learn-all, status, summary).
-- `config/forge_config.yaml` — non-secret configuration.
-- `prompts/` — prompt templates for internal agents.
-- `dashboard/` — Next.js 14 + TypeScript + Tailwind + Supabase realtime.
-
-See `AGENTS.md` for the full specification and design details.
+1. **Research** — Firecrawl scrapes the web for authoritative sources on the domain (e.g. `docker`, `kubernetes`, `python`).
+2. **Write** — An LLM (Claude via OpenRouter) synthesizes research into a `SKILL.md` with YAML frontmatter and step-by-step instructions.
+3. **Validate** — The skill procedure runs in a Docker sandbox to verify it actually works (up to 3 attempts).
+4. **Save** — Persists to `~/.hermes/skills/<name>/SKILL.md` so Hermes Agent can use it.
+5. **Sync** — Pushes events and skills to Supabase and Telegram for live visibility.
 
 ---
 
-### Prerequisites
+## Results & Stats
 
-- Python 3.11+ with `pip`.
-- Node.js 18+ and `npm`.
-- Docker installed and on `PATH` (for validation sandbox).
-- Supabase project (URL + service key + anon key).
-- OpenRouter API key.
-- Firecrawl API key.
-- Telegram bot token and chat ID.
+| Metric | Description |
+|--------|-------------|
+| **Domains** | 15+ domains (docker, kubernetes, git, python, postgresql, redis, nginx, linux, terraform, react, fastapi, mongodb, aws, github-actions, typescript, celery) |
+| **Validation** | Skills are tested in Docker before saving |
+| **Output** | `SKILL.md` files compliant with [agentskills.io](https://agentskills.io) |
+| **Live** | Dashboard + Telegram updates in real time |
 
 ---
 
-### Installation (Agent)
+## Built for Hermes Agent
+
+Skill Forge is designed to extend [Hermes Agent](https://github.com/NousResearch/hermes-agent) by populating its skills library. Every skill follows the [agentskills.io](https://agentskills.io) specification for SKILL.md format, ensuring compatibility with Hermes and any agentskills-compatible system.
+
+---
+
+## Prerequisites
+
+- **Python 3.11+** with `pip`
+- **Node.js 18+** and `npm` (for dashboard)
+- **Docker** installed and on `PATH` (for validation sandbox)
+- **Supabase** project (URL + service key + anon key)
+- **OpenRouter** API key
+- **Firecrawl** API key
+- **Telegram** bot token and chat ID
+
+---
+
+## Installation
 
 ```bash
-git clone <this-repo>
-cd skill-forge
+git clone https://github.com/Snehal707/skill-forge-agent.git
+cd skill-forge-agent
 python -m venv .venv
-.venv\Scripts\activate  # Windows
+.venv\Scripts\activate   # Windows
+# source .venv/bin/activate   # macOS/Linux
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` and fill in:
+Copy `.env.example` to `.env` and configure:
 
-- `OPENROUTER_API_KEY`
-- `FIRECRAWL_API_KEY`
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_KEY`
-- `SKILLS_DIR` (e.g. `C:\Users\ASUS\.hermes\skills`)
-- `DASHBOARD_URL` (your Vercel dashboard URL)
+| Variable | Description |
+|----------|-------------|
+| `OPENROUTER_API_KEY` | OpenRouter API key |
+| `FIRECRAWL_API_KEY` | Firecrawl API key |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token |
+| `TELEGRAM_CHAT_ID` | Your Telegram chat ID |
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_SERVICE_KEY` | Supabase service role key |
+| `SKILLS_DIR` | Hermes skills path (e.g. `~/.hermes/skills`) |
+| `DASHBOARD_URL` | Live dashboard URL |
 
-You can verify everything with:
+Verify setup:
 
 ```bash
 python -m forge.health_check
@@ -95,68 +137,72 @@ python -m forge.health_check
 
 ---
 
-### Telegram Setup
-
-1. In Telegram, start a chat with `@BotFather`.
-2. Run `/newbot` and follow the prompts to create **Skill Forge** bot.
-3. Copy the bot token into `TELEGRAM_BOT_TOKEN` in `.env`.
-4. Start a chat with your bot so it can send messages.
-5. Get your numeric `TELEGRAM_CHAT_ID` (for example via a simple helper bot or API)
-   and set `TELEGRAM_CHAT_ID` in `.env`.
-6. Run a quick notifier test:
+## Quick Start
 
 ```bash
-python -m forge.notifier
-```
-
-You should see a “Researching: notifier-test” message in your chat.
-
----
-
-### Supabase Setup
-
-1. Create a new project at `supabase.com`.
-2. In the SQL editor, create the `skills` and `events` tables and enable realtime
-   as described in `AGENTS.md`.
-3. In Supabase **Settings → API**, copy:
-   - `URL` → `SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_URL`
-   - `service_role key` → `SUPABASE_SERVICE_KEY`
-   - `anon key` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-4. Add these values to `.env` (Python agent) and to the Vercel dashboard env.
-
----
-
-### Running the Agent
-
-Activate your virtualenv and run:
-
-```bash
+# Learn a single domain
 python skill_forge.py learn docker
+
+# Learn all configured domains
+python skill_forge.py learn-all
+
+# View stats
+python skill_forge.py status
+
+# Daily summary to Telegram
+python skill_forge.py summary
 ```
-
-This will:
-
-- Research the domain via Firecrawl.
-- Write a SKILL.md via the LLM.
-- Attempt validation in a Docker sandbox.
-- Save the skill into the Hermes skills directory.
-- Insert events and skills into Supabase.
-- Send Telegram notifications for each stage.
-
-Other commands:
-
-- `python skill_forge.py learn-all` — run the pipeline for all domains configured
-  under `domains:` in `config/forge_config.yaml`.
-- `python skill_forge.py status` — show aggregate Supabase stats.
-- `python skill_forge.py summary` — send a one-off daily summary to Telegram.
-- `python skill_forge.py summary --daemon` — run the daily summary on a schedule
-  using the `schedule` library.
 
 ---
 
-### Dashboard (Local Dev)
+## Tech Stack
 
-From the `dashboard/` directory:
+| Layer | Technologies |
+|-------|--------------|
+| **Agent** | Python 3.11, OpenRouter (Claude), Firecrawl, Supabase, python-telegram-bot |
+| **Validation** | Docker sandbox |
+| **Dashboard** | Next.js 14, TypeScript, Tailwind CSS, Supabase Realtime |
+| **Deploy** | Vercel |
+
+---
+
+## Project Structure
+
+```
+skill-forge-agent/
+├── forge/                    # Python agent package
+│   ├── researcher.py         # Firecrawl web research
+│   ├── writer.py             # LLM SKILL.md generator
+│   ├── validator.py          # Docker sandbox validation
+│   ├── skill_manager.py      # Hermes skills directory I/O
+│   ├── notifier.py           # Telegram notifications
+│   ├── db.py                 # Supabase client
+│   ├── llm.py                # OpenRouter LLM helper
+│   ├── summarizer.py         # Daily summary builder
+│   └── health_check.py       # Environment checks
+├── skill_forge.py            # CLI entry point
+├── config/forge_config.yaml  # Configuration
+├── prompts/                  # LLM prompt templates
+├── dashboard/                # Next.js dashboard (Vercel)
+│   ├── app/
+│   ├── components/
+│   └── lib/
+├── scripts/                  # Sync & prune utilities
+└── assets/                   # Screenshots
+```
+
+---
+
+## Dashboard
+
+**Live:** [skill-forge-agent.vercel.app](https://skill-forge-agent.vercel.app)
+
+- **StatsBar** — Total skills, skills today, validation success rate, domains covered
+- **LiveFeed** — Real-time event stream via Supabase subscriptions
+- **SkillCards** — Domain/category tags, validation badges
+- **SkillModal** — Full SKILL.md with syntax highlighting and copy button
+
+### Local Development
 
 ```bash
 cd dashboard
@@ -164,25 +210,37 @@ npm install
 npm run dev
 ```
 
-This starts the Next.js app at `http://localhost:3000` with:
-
-- **StatsBar** — total skills, skills today, validation success rate, domains covered.
-- **LiveFeed** — realtime `events` stream via Supabase subscriptions.
-- **SkillGrid** — cards for skills with domain/category tags and validation badges.
-- **SkillModal** — slide-in panel showing full SKILL.md with syntax highlighting.
+Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
-### Dashboard (Vercel Deploy)
+## Telegram Setup
 
-1. **Import from GitHub:** Go to [vercel.com/new](https://vercel.com/new) → Import `Snehal707/skill-forge-agent`.
-2. **Root Directory:** Set to `dashboard` (or leave blank — root `vercel.json` already configures this).
-3. **Environment Variables** (Vercel → Project Settings → Environment Variables):
-   - `NEXT_PUBLIC_SUPABASE_URL` = your Supabase project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = your Supabase anon/public key
-4. Click **Deploy**. After deployment:
-   - Copy the live URL (e.g. `https://skill-forge-agent-xxx.vercel.app`).
-   - Set `DASHBOARD_URL` in your agent `.env` so Telegram "Saved" links work.
-   - Run `python skill_forge.py learn docker` and verify events appear live.
+1. Create a bot with [@BotFather](https://t.me/BotFather)
+2. Add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` to `.env`
+3. Test: `python -m forge.notifier`
 
+---
 
+## Supabase Setup
+
+1. Create a project at [supabase.com](https://supabase.com)
+2. Run the schema from `AGENTS.md` (skills + events tables, enable realtime)
+3. Add `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` to `.env`
+4. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` to Vercel env
+
+---
+
+## Links
+
+| Resource | URL |
+|----------|-----|
+| **Live Dashboard** | [skill-forge-agent.vercel.app](https://skill-forge-agent.vercel.app) |
+| **YouTube Demo** | [youtu.be/Hu9HJkuccVM](https://youtu.be/Hu9HJkuccVM) |
+| **GitHub** | [github.com/Snehal707/skill-forge-agent](https://github.com/Snehal707/skill-forge-agent) |
+| **Hermes Agent** | [github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) |
+| **SKILL.md Spec** | [agentskills.io](https://agentskills.io) |
+
+---
+
+For full specification and design details, see [AGENTS.md](AGENTS.md).
